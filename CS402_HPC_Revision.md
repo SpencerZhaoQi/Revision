@@ -1,17 +1,17 @@
 # Fundamentals-2 (Fundamentals-2.pdf)
 
-### [Architecture Types](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/fundamentals-2.pdf#page=14)
+## [Architecture Types](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/fundamentals-2.pdf#page=14)
 
 -   **Shared memory** system  
     
 -   **Distributed memory** system  
     
 
-### [Parallel computing vs. distributed computing](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/fundamentals-2.pdf#page=21)
+## [Parallel computing vs. distributed computing](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/fundamentals-2.pdf#page=21)
 
 ## Models of Parallel Programming （programmingmodel-2.pdf）
 
-### [Different approaches for programming on a HPC system include:](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=2)
+## [Different approaches for programming on a HPC system include:](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=2)
 
 -   **Smart compilers**, which automatically _**parallelise sequential codes**_  
     
@@ -22,7 +22,7 @@
 -   **Dedicated languages** designed specifically for parallel computers  
     
 
-#### [Compiler Approach](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=4)
+### [Compiler Approach](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=4)
 
 -   Automatically **parallelize** the sequential codes  
     
@@ -122,11 +122,11 @@ Occam
 
 # MPI
 
-### [Message Passing Programming](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=2)
+## [Message Passing Programming](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=2)
 
-### [Message Passing Interface (MPI)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=3)
+## [Message Passing Interface (MPI)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=3)
 
-### [OpenMP vs MPI](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=4)
+## [OpenMP vs MPI](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=4)
 
 -   MPI ==> **distributed-memory** systems  
     
@@ -138,17 +138,17 @@ Occam
     
 -   MPI is  **lower-level**  control (Data partition, allocation and process communication are conducted by programmers)
 
-### [MPI functions](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=7)
+## [MPI functions](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=7)
 
-#### Intuitive Interfaces for sending and receiving messages
+### Intuitive Interfaces for sending and receiving messages
 
 Send(data, destination), Receive(data_location, source)  
 
-#### [**NOT ENOUGH BECAUSE**](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=8)
+### >>>**[NOT ENOUGH BECAUSE](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=8)<<<**
 
-#### Express the data in the interface
+### Express the data in the interface
 
-Early stages:
+#### Early stages:
 
 -   (address, length) for the send interface
 -   (address, max_length) for the receive interface
