@@ -1,3 +1,7 @@
+# 
+
+----------
+
 # Fundamentals-2 (Fundamentals-2.pdf)
 
 ## [Architecture Types](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/fundamentals-2.pdf#page=14)
@@ -9,7 +13,17 @@
 
 ## [Parallel computing vs. distributed computing](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/fundamentals-2.pdf#page=21)
 
-## Models of Parallel Programming （programmingmodel-2.pdf）
+----------
+
+# OpenMP (programmingmodel-1.pdf)
+
+## [Parallel programming approach](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-1.pdf#page=2)
+
+-   Write  **serial** program and use  **compiler** to  **automatically** parallelize it  
+    
+-   **OpenMP** is used to  **assist compilers**  to understand the serial program
+
+# Models of Parallel Programming (programmingmodel-2.pdf)
 
 ## [Different approaches for programming on a HPC system include:](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=2)
 
@@ -35,7 +49,7 @@
 
 #### Dependency and Parallelism
 
-Two types of Dependency:  
+##### Two types of Dependency:
 
 -   **Control dependency**: waiting for the instruction which controls the execution flow to be completed  
     
@@ -61,10 +75,8 @@ For a for loop, check whether there is **dependency** between different iteratio
 
 #### Features of the Compiler approach
 
-#### 
-
--   Can work fairly well for some regular problems
--   Fully automatic (efficient) parallelisation is difficult, and **unlikely to be efficient** in general
+-   Can work fairly well for some regular problem
+-   Fully automatic (efficient) parallelisation is difficult, and unlikely to be efficient  in general
 
 #### Assisting Compiler
 
@@ -76,12 +88,12 @@ Programmers can assist the compiler by  **writing the code in a way that explici
 
 #### Task parallelism vs. Data parallelism
 
-Data Parallelism in OpenMP
+##### Data Parallelism in OpenMP
 
 -   #pragma omp **parallel for**
 -   #pragma omp **parallel** { #pragma omp **for** ...}
 
-Task Parallelism in OpenMP
+##### Task Parallelism in OpenMP
 
 -   #pragma omp **parallel** { #pragma omp **sections** { #pragma omp **section** ...}}  
     
@@ -90,7 +102,7 @@ Task Parallelism in OpenMP
 
 **F90 and HPF** allow scalar operations to be applied to arrays to support the data parallelism
 
-#### Definition
+#### Data parallelism
 
 A data parallel program is  **a sequence of explicitly and/or implicitly parallel statements**
 
@@ -109,18 +121,18 @@ A data-parallel programming is  **higher-level**  than the message passing-type 
 
 -   this is done by the compiler (inferred from the program and underlying computer architecture)
 
-However
+##### However
 
 -   **not all algorithms** can be specified in data parallel terms
 -   if the program has **irregular communication patterns** then this will be compiled **less efficiently**
 
-#### **[Specially Designed Language](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=23)**
+### **[Specially Designed Language](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/programmingmodel-2.pdf#page=23)**
 
 Occam
 
 # OpenMP
 
-# MPI
+# Message Passing Programming I (mpi-1.pdf)  
 
 ## [Message Passing Programming](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=2)
 
@@ -144,11 +156,186 @@ Occam
 
 Send(data, destination), Receive(data_location, source)  
 
-### >>>**[NOT ENOUGH BECAUSE](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=8)<<<**
+#### >>>**[NOT ENOUGH BECAUSE](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=8)<<<**
 
-### Express the data in the interface
+### [Express the data in the interface](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=9)
 
 #### Early stages:
 
--   (address, length) for the send interface
--   (address, max_length) for the receive interface
+(address, length) for the send interface, (address, max_length) for the receive interface
+
+##### shortage:
+
+-   The data may  **not** occupy  **contiguous** memory locations
+-   Storing  **format** for data may  **not** be the  **same** in a heterogeneous platform
+
+#### Triple:
+
+(address, count, datatype) for send, (address, max_count, datatype) for receive.
+
+##### And now the interfaces are:
+
+-   send(address, count, datatype, destination, msg_tag)
+-   receive(address, max_count, datatype, source, msg_tag)
+
+##### advantages:
+
+-   Such a format reflects the fact that a message contains the  **structures**, not just a string of bits
+-   Programmers can construct their  **own datatype**. Handle  **non-contiguous**  data
+
+### [Communicator](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=12)  (distinguish messages)
+
+A communicator consists of  **a group of processes**  and  **a communication context**  
+
+Initial communicator: MPI_COMM_WORLD  
+
+##### Interface:
+
+**send**(address, count, datatype, destination, tag,  **comm**)
+
+**receive**(address, maxcount, datatype, source, tag,  **comm**,  **status**), **Status** holds the information about source, tag and actual size of the received message  
+
+### [Express source and destination](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=15)  
+
+They are processes in communicator, and identified by  **ranks**  
+
+### Some other issues
+
+In receiver,  **tag and source** can be a  **wildcard**. ie. MPI_ANY_TAG, MPI_ANY_SOURCE  
+
+## [First six functions](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-1.pdf#page=17)
+
+-   MPI_Send (buf, count, datatype, dest, tag, comm)  
+    
+-   MPI_Recv (buf, count, datatype, source, tag, comm, status)  
+    
+-   MPI_Init (int *argc, char**argv)  
+    
+-   MPI_Comm_size (MPI_Comm comm, int* size)  
+    
+-   MPI_Comm_rank (MPI_Comm comm, int* pid)  
+    
+-   MPI_Finalize()
+
+## [Other functions added in MPI](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-2.pdf#page=2)
+
+-   Convenience (collective operations, topology)  
+    
+-   Modularity (communicators, groups)  
+    
+-   Efficiency (non-blocking send/receive)  
+    
+-   Robustness (ready-mode communication)  
+    
+-   Flexibility (datatype)  
+    
+
+### [Convenience  (collective operations,topology)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-2.pdf#page=4)
+
+-   **MPI_Reduce(sendbuf, recvbuf, count, type, op, root, comm)**, MPI performs op over the data in the sendbuf and put the result in the recvbuf in root.
+-   **MPI_Allreduce(sendbuf, recvbuf, count, type, op, comm)**, MPI performs op over the data in sendbuf and distributes the result back to recvbuf in all processes.
+-   **MPI_Barrier(comm)**, Global synchronization. No processes return from function **until** all processes have called it.
+-   **MPI_Bcast (buf, count, type, root, comm)**, Broadcast data from root to all processes.
+-   **MPI_Gather (sendbuf, sendcount, sendtype, recvbuf, recvcount, recvtype, root, comm)**, Gather all the data from other processes to root.
+-   **MPI_Scatter(sendbuf, sendcount, sendtype, recvbuf, recvcount, recvtype, root, comm)**, Scatter data from one process to all processes.
+
+### [Modularity (communicators, groups)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-2.pdf#page=28)
+
+MPI supports modular programming via  **communicators**. Provides  **local namespaces**  for processes and message tag. All MPI communication operations specify a communicator (process group that is engaged in the communication)
+
+#### Creating new communicators - Approach 1
+
+-   int MPI_Comm_group(MPI_Comm comm, MPI_Group *group)
+-   int MPI_Group_excl(MPI_Group group, int n, int *ranks, MPI_Group *newgroup)
+-   int MPI_Group_incl(MPI_Group group, int n, int *ranks, MPI_Group *newgroup)
+-   int MPI_Comm_create(MPI_Comm comm, MPI_Group group, MPI_Comm *newcomm)
+-   int MPI_Group_free(MPI_Group *group) int MPI_Comm_free(MPI_Comm *comm)
+
+#### Creating new communicators - Approach 2
+
+-   MPI_Comm_split(comm, colour, myid, *newcomm);  
+    
+
+### [Robustness (non-blocking send/receive)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-2.pdf#page=33)
+
+#### Blocking send
+
+The sender doesn’t return until the application buffer can be re-used (which often means that the data have been copied from application buffer to system buffer) //note: it doesn’t mean that the data will be received  
+
+#### Blocking receive
+
+The receiver doesn’t return until the data have been ready to use by the receiver (which often means that the data have been copied from system buffer to application buffer)  
+
+#### Non-blocking send/receive
+
+-   The calling process  **returns immediately**
+-   Just request the MPI library to perform the communication:  **no guarantee**  when this will happen
+-   **Unsafe** to modify the application buffer until you can make sure the requested operation has been performed (MPI provides routines to test this)
+-   Can be used to  **overlap** computation with communication and have possible  **performance gains**
+
+#### [Testing non-blocking communications](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-2.pdf#page=37)
+
+### [Efficiency (communication mode)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-3.pdf#page=3)
+
+The communication modes refers to the send routines:
+
+-   **Standard** send: MPI_Send (blocking), MPI_Isend (nonblocking)
+-   **Synchronous** send: MPI_Ssend (blocking), MPI_Issend (non- blocking)
+-   **Buffered** send: MPI_Bsend (blocking), MPI_Ibsend (nonblocking)
+-   **Ready** send: MPI_Rsend (blocking), MPI_Irsend (nonblocking)
+
+Two Receive routines:
+
+-   Blocking receive routine: MPI_Recv()
+-   Non-blocking receive routine: MPI_Irecv()
+
+### [Virtual topology --Cartesian Topology](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-3.pdf#page=20)
+
+**MPI_Cart_create**(MPI_Comm comm_old, int ndims, int *dims, int *periods, int reorder, MPI_Comm *comm_cart)  
+
+**MPI_Cart_rank**(comm, coords, rank)  
+
+**MPI_Cart_coords**(comm, rank, ndims, coords)  
+
+### [Flexibility (datatype)](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-4.pdf#page=2)
+
+#### Derived datatype
+
+Derived datatype allows the users to construct (derive) their own data types.  
+
+Derived datatypes can be used in:
+
+-   Grouping  **non-contiguous**  data.
+-   Grouping data of  **different datatypes**.
+
+Provides the opportunity to send this kind of data conveniently and potentially improving performance  
+
+#### Memory Layout of a Datatype  
+
+Format: {(type_0, offset_0), (type_1, offset_1), ..., (type_n, offset_n)}  
+
+Examples for primitive datatypes: **MPI_Char: {(MPI_Char, 0)}, MPI_Int: {(MPI_Int, 0)}**  
+
+#### Three Attributes to characterize non-contiguous data
+
+![](file:///D:/Documents/MyWiz/temp/ee5ffe06-5ae9-4508-9ddc-bd91bd918918/128/index_files/5c92ec70-2c36-46b0-8aad-230d9682f7e2.png)
+
+[MPI_Type_Vector](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-4.pdf#page=8)(count, blocklen, stride, oldtype, newtype)  
+
+[MPI_Type_create_indexed_block](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-4.pdf#page=11)( int count, int blocklength, int array_of_offsets[], MPI_Datatype oldtype, MPI_Datatype *newtype)  
+
+[MPI_Type_Indexed](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-4.pdf#page=14)(count, lengths[], offsets[], oldtype, newtype)  
+
+[MPI_Type_struct](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-4.pdf#page=17)(int count, int *array_of_blocklengths, MPI_int *array_of_displacements, MPI_Datatype *array_of_types, MPI_Datatype *newtype)  
+
+[MPI_Type_contiguous](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs402/mpi-4.pdf#page=22)(int count, MPI_Datatype old_type, MPI_Datatype *new_type_p)  
+
+#### How are the data with derived data type are sent?
+
+-   Pack the data elements specified by the memory layout into the contiguous space in system buffer
+-   MPI library sends the data in system buffer
+
+#### Why using derived data type can improve performance? --Two possible solutions to non-contiguous data
+
+-   Call a MPI_Send for each data block that occupies contiguous space. Calling MPI_Send multiple times, which occurs higher overhead (e.g., handshaking between sender and receiver, metadata enclosed for each message)
+-   Copy the non-contiguous data to a contiguous buffer space and then call a MPI_Send to send the data in the buffer. Needs to copy the data twice: 1) copy the non-contiguous data to a contiguous buffer space; 2) copy the data in the application buffer to system buffer
